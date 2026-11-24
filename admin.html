@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#5b4028">
+  <meta name="robots" content="noindex, nofollow">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; object-src 'none'; base-uri 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Moco Admin — Mochi Dessert Store</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%235b4028'/%3E%3Ccircle cx='32' cy='34' r='17' fill='%23e9c66d'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+  <!-- ================= LOGIN ================= -->
+  <div class="login-view" id="loginView">
+    <div class="login-card">
+      <div class="login-brand">
+        <span class="logo">mo<span>co</span>.</span>
+        <span class="login-tag">Admin Panel</span>
+      </div>
+      <h1>Masuk ke dashboard</h1>
+      <p>Kelola produk, pesanan, dan informasi kontak Moco dari satu tempat.</p>
+
+      <div class="login-error" id="loginError" role="alert">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01" stroke-linecap="round"/></svg>
+        <span id="loginErrorText">Username atau password salah.</span>
+      </div>
+
+      <div class="lock-banner" id="lockBanner" role="status" hidden>
+        <b>Login dikunci sementara</b>
+        <span id="lockText">Coba lagi sebentar lagi.</span>
+      </div>
+
+      <form class="login-form" id="loginForm" novalidate>
+        <div class="login-step-badge"><span>1</span> Verifikasi akun</div>
+        <label class="field">
+          <span>Username</span>
+          <input id="loginUser" name="username" autocomplete="username" placeholder="Masukkan username" maxlength="30" required>
+        </label>
+        <label class="field">
+          <span>Password</span>
+          <input id="loginPass" name="password" type="password" autocomplete="current-password" placeholder="Masukkan password" maxlength="128" required>
+        </label>
+        <button class="btn btn-primary" type="submit" id="loginSubmit">Lanjut ke verifikasi</button>
+      </form>
+
+      <form class="login-form" id="mfaForm" novalidate hidden>
+        <div class="login-step-badge"><span>2</span> Verifikasi dua langkah</div>
+        <p class="mfa-intro">Masukkan 6 digit kode authenticator untuk akun <b id="mfaUser">admib</b>. Kode berganti setiap 30 detik.</p>
+        <label class="field">
+          <span>Kode verifikasi</span>
+          <input id="mfaCode" name="code" inputmode="numeric" autocomplete="one-time-code" placeholder="000000" maxlength="6" pattern="[0-9]{6}">
+        </label>
+        <button class="btn btn-primary" type="submit" id="mfaSubmit">Verifikasi &amp; masuk</button>
+        <button class="link-btn" type="button" id="mfaBack">&larr; Kembali ke login</button>
+      </form>
+
+      <details class="mfa-demo" id="mfaDemo">
+        <summary>Butuh kode? Tampilkan kode demo</summary>
+        <div class="mfa-demo-body">
+          <p>Prototipe ini memakai TOTP. Untuk pengujian, kode yang berlaku saat ini:</p>
+          <div class="demo-code"><b id="demoCode">------</b><span id="demoTimer">—</span></div>
+          <p class="tiny">Secret demo <code>JBSWY3DPEHPK3PXP</code>. Tampilan kode ini hanya untuk prototype; pada produksi kode berasal dari aplikasi authenticator dan verifikasi dilakukan backend.</p>
+        </div>
+      </details>
+
+      <p class="login-hint">Login dilindungi password ter-hash (PBKDF2-SHA256), kode MFA, batas percobaan, dan sesi 30 menit. <a href="privacy.html#keamanan">Baca batasan keamanan</a>.</p>
+      <a class="login-back" href="index.html">&larr; Kembali ke website</a>
+    </div>
+  </div>
+
+  <!-- ================= DASHBOARD APP ================= -->
+  <div class="app" id="adminApp" hidden>
+    <div class="side-overlay" id="sideOverlay"></div>
+
+    <aside class="sidebar" id="sidebar" aria-label="Navigasi admin">
+      <div class="side-brand">
+        <span class="logo">mo<span>co</span>.</span>
+        <small>Admin</small>
+      </div>
+
+      <span class="side-label">Menu</span>
+      <nav class="side-nav">
+        <a href="#dashboard" data-nav="dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.6"/><rect x="14" y="3" width="7" height="7" rx="1.6"/><rect x="3" y="14" width="7" height="7" rx="1.6"/><rect x="14" y="14" width="7" height="7" rx="1.6"/></svg>
+          Dashboard
+        </a>
+        <a href="#produk" data-nav="produk">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 3 7.5l9 4.5 9-4.5L12 3Z"/><path d="M3 12l9 4.5 9-4.5M3 16.5 12 21l9-4.5"/></svg>
+          Produk
+        </a>
+        <a href="#pesanan" data-nav="pesanan">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12l1 18H5L6 3Z"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>
+          Pesanan
+        </a>
+        <a href="#kontak" data-nav="kontak">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a3 3 0 0 1-3 3H8l-5 3V6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v9Z"/><path d="M8 9h8M8 13h5"/></svg>
+          Kontak
+        </a>
+        <a href="#keamanan" data-nav="keamanan">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4.5 6v6c0 4.5 3.2 7.7 7.5 9 4.3-1.3 7.5-4.5 7.5-9V6L12 3Z"/><path d="m9 12 2 2 4-4"/></svg>
+          Keamanan
+        </a>
+      </nav>
+
+      <div class="side-foot">
+        <div class="side-user">
+          <span class="side-avatar">AD</span>
+          <div>
+            <b>Administrator</b>
+            <small>admib</small>
+          </div>
+        </div>
+        <button class="logout-btn" id="logoutBtn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5M21 12H9"/></svg>
+          Logout
+        </button>
+      </div>
+    </aside>
+
+    <div class="admin-main">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="icon-btn side-toggle" id="sideToggle" type="button" aria-label="Buka navigasi admin">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+          </button>
+          <div>
+            <h1 id="pageTitle">Ringkasan Toko</h1>
+            <p id="pageSubtitle">Pantau performa Moco hari ini.</p>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <a class="store-link" href="index.html" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3h7v7M21 3l-9 9"/><path d="M19 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h5"/></svg>
+            <span>Lihat Toko</span>
+          </a>
+          <span class="top-avatar" title="Administrator">AD</span>
+        </div>
+      </header>
+
+      <main class="content">
+        <p class="mobile-table-hint" id="tableHint">Tabel dapat digeser ke samping untuk melihat semua kolom.</p>
+
+        <!-- ===== DASHBOARD ===== -->
+        <section class="view" id="view-dashboard" data-view="dashboard">
+          <div class="stat-grid" id="statGrid"></div>
+
+          <div class="dash-grid">
+            <div class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Pesanan Terbaru</h3>
+                  <p>5 pesanan terakhir yang tercatat</p>
+                </div>
+                <a class="panel-link" href="#pesanan">Lihat semua</a>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr><th>ID</th><th>Tanggal</th><th>Total</th><th>Status</th></tr>
+                  </thead>
+                  <tbody id="recentOrders"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Ketersediaan Produk</h3>
+                  <p>Status menu di halaman pelanggan</p>
+                </div>
+                <a class="panel-link" href="#produk">Kelola</a>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr><th>Produk</th><th>Harga</th><th>Status</th></tr>
+                  </thead>
+                  <tbody id="productSummary"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel" style="margin-top:16px">
+            <div class="panel-head">
+              <div>
+                <h3>Aktivitas Terakhir</h3>
+                <p>Catatan lokal login dan perubahan data</p>
+              </div>
+              <a class="panel-link" href="#keamanan">Lihat semua</a>
+            </div>
+            <div class="panel-body">
+              <ul class="timeline" id="recentActivity"></ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== PRODUK ===== -->
+        <section class="view" id="view-produk" data-view="produk" hidden>
+          <div class="view-head">
+            <div>
+              <p>Perubahan di sini langsung tampil di halaman Menu pelanggan.</p>
+            </div>
+            <button class="btn btn-primary" id="addProductBtn" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+              Tambah Produk
+            </button>
+          </div>
+
+          <div class="toolbar">
+            <div class="search-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              <input type="search" id="productSearch" placeholder="Cari nama produk..." aria-label="Cari produk">
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Produk</th><th>Harga</th><th>Label</th><th>Ketersediaan</th><th style="text-align:right">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="productsBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== PESANAN ===== -->
+        <section class="view" id="view-pesanan" data-view="pesanan" hidden>
+          <div class="view-head">
+            <div>
+              <p>Pesanan tercatat saat pelanggan menekan Checkout, lalu dilanjutkan di WhatsApp.</p>
+            </div>
+          </div>
+
+          <div class="filters" id="orderFilters">
+            <button class="filter-btn active" type="button" data-status="all">Semua</button>
+            <button class="filter-btn" type="button" data-status="Menunggu Konfirmasi">Menunggu Konfirmasi</button>
+            <button class="filter-btn" type="button" data-status="Diproses">Diproses</button>
+            <button class="filter-btn" type="button" data-status="Selesai">Selesai</button>
+            <button class="filter-btn" type="button" data-status="Dibatalkan">Dibatalkan</button>
+          </div>
+
+          <div class="toolbar">
+            <div class="search-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              <input type="search" id="orderSearch" placeholder="Cari ID, produk, atau status..." aria-label="Cari pesanan">
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID Pesanan</th><th>Tanggal</th><th>Produk</th><th>Qty</th><th>Total</th><th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="ordersBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== KONTAK ===== -->
+        <section class="view" id="view-kontak" data-view="kontak" hidden>
+          <div class="view-head">
+            <div>
+              <p>Nomor dan tautan ini dipakai di bagian Contact serta Footer website.</p>
+            </div>
+          </div>
+
+          <div class="settings-grid">
+            <form class="form-card" id="contactForm" novalidate>
+              <div class="form-grid">
+                <label class="field">
+                  <span>Nomor WhatsApp (tampil)</span>
+                  <input id="cfWaDisplay" name="waDisplay" placeholder="0812 8311 5852" required>
+                </label>
+                <label class="field">
+                  <span>Nomor WhatsApp (format internasional)</span>
+                  <input id="cfWaNumber" name="waNumber" placeholder="6281283115852" inputmode="tel" required>
+                  <small>Tanpa tanda + dan spasi, contoh 6281283115852.</small>
+                </label>
+                <label class="field full">
+                  <span>Link WhatsApp</span>
+                  <input id="cfWaLink" name="waLink" type="url" placeholder="https://wa.me/6281283115852" required>
+                </label>
+                <label class="field">
+                  <span>Username Instagram</span>
+                  <input id="cfIgUsername" name="igUsername" placeholder="muhammad.syauqal" required>
+                </label>
+                <label class="field">
+                  <span>Link Instagram</span>
+                  <input id="cfIgLink" name="igLink" type="url" placeholder="https://www.instagram.com/muhammad.syauqal/" required>
+                </label>
+              </div>
+              <div class="form-actions">
+                <button class="btn btn-ghost" type="reset">Reset</button>
+                <button class="btn btn-primary" type="submit">Simpan Perubahan</button>
+              </div>
+            </form>
+
+            <div class="panel preview-card">
+              <h3>Pratinjau</h3>
+              <p>Tampilan kontak di website pelanggan.</p>
+              <div class="preview-contact">
+                <span class="preview-ico">
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2Zm5.8 14.06c-.25.7-1.47 1.36-2.02 1.4-.54.05-1.05.24-3.55-.74-3.02-1.19-4.92-4.28-5.07-4.48-.15-.2-1.2-1.6-1.2-3.05 0-1.45.76-2.16 1.03-2.46.27-.3.59-.37.79-.37.2 0 .39 0 .56.01.18.01.42-.07.66.5.25.6.84 2.05.91 2.2.07.15.12.32.02.52-.1.2-.15.32-.3.5-.15.17-.31.39-.45.52-.15.15-.3.31-.13.61.17.3.76 1.25 1.63 2.03 1.12 1 2.06 1.31 2.36 1.46.3.15.47.12.65-.07.17-.2.74-.86.94-1.16.2-.3.4-.25.66-.15.27.1 1.72.81 2.01.96.3.15.5.22.57.35.07.12.07.72-.18 1.42Z"/></svg>
+                </span>
+                <div>
+                  <b id="previewWa">0812 8311 5852</b>
+                  <small>WhatsApp</small>
+                </div>
+              </div>
+              <div class="preview-contact">
+                <span class="preview-ico">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg>
+                </span>
+                <div>
+                  <b id="previewIg">@muhammad.syauqal</b>
+                  <small>Instagram</small>
+                </div>
+              </div>
+              <div class="preview-note">Perubahan kontak akan langsung memperbarui tautan WhatsApp dan Instagram di halaman pelanggan setelah disimpan.</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== KEAMANAN ===== -->
+        <section class="view" id="view-keamanan" data-view="keamanan" hidden>
+          <div class="view-head">
+            <div>
+              <p>Status kontrol keamanan prototype, log aktivitas, serta backup dan pemulihan.</p>
+            </div>
+            <span class="badge warn">Prototipe front-end</span>
+          </div>
+
+          <div class="security-grid">
+            <div class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Status Keamanan</h3>
+                  <p>Kontrol yang aktif di browser ini</p>
+                </div>
+              </div>
+              <div class="panel-body" id="securityStatus"></div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Backup &amp; Pemulihan</h3>
+                  <p>Simpan salinan data sebelum perubahan besar</p>
+                </div>
+              </div>
+              <div class="panel-body">
+                <p class="small muted">Unduh produk, pesanan, dan kontak dalam satu file JSON. File tidak berisi log, sesi, atau kredensial.</p>
+                <div class="backup-actions">
+                  <button class="btn btn-primary" type="button" id="backupBtn">Unduh Backup</button>
+                  <label class="btn btn-ghost file-btn">Pulihkan Backup
+                    <input type="file" id="restoreInput" accept="application/json,.json" hidden>
+                  </label>
+                </div>
+                <p class="hint small">Pemulihan akan mengganti seluruh produk, pesanan, dan kontak di browser ini. Sesi admin tidak berubah.</p>
+
+                <div class="danger-zone">
+                  <b>Reset data demo</b>
+                  <p>Hapus produk, pesanan, kontak, dan log di browser ini.</p>
+                  <button class="btn btn-danger btn-sm" type="button" id="resetDataBtn">Reset Data</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel security-log-panel">
+              <div class="panel-head">
+                <div>
+                  <h3>Log Aktivitas</h3>
+                  <p>Retensi 90 hari · maksimal 300 entri</p>
+                </div>
+                <button class="btn btn-ghost btn-sm" type="button" id="exportLogBtn">Unduh Log</button>
+              </div>
+              <div class="log-list" id="activityLog"></div>
+            </div>
+          </div>
+
+          <div class="security-note">
+            <b>Batas prototipe.</b>
+            Website ini masih berjalan di browser dengan LocalStorage. Hash password, secret MFA, pembatasan percobaan, dan sesi dapat dibaca atau dilewati oleh pengguna yang menguasai perangkat. Untuk produksi, pindahkan autentikasi, rate limiting, sesi, database, dan log ke backend dengan HTTPS — lihat <code>SECURITY.md</code>.
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- ================= PRODUCT MODAL ================= -->
+  <div class="admin-modal" id="productModal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="productModalTitle">
+      <div class="modal-head">
+        <div>
+          <h2 id="productModalTitle">Tambah Produk</h2>
+          <p>Lengkapi informasi produk mochi.</p>
+        </div>
+        <button class="icon-btn" type="button" data-close-product aria-label="Tutup">&times;</button>
+      </div>
+      <form class="modal-body" id="productForm" novalidate>
+        <input type="hidden" id="pfId">
+        <div class="form-grid">
+          <label class="field">
+            <span>Nama produk</span>
+            <input id="pfName" maxlength="60" placeholder="Contoh: Mango Cream" required>
+          </label>
+          <label class="field">
+            <span>Harga (Rp)</span>
+            <input id="pfPrice" type="number" min="0" step="500" placeholder="10000" required>
+          </label>
+          <label class="field full">
+            <span>Deskripsi</span>
+            <textarea id="pfDesc" rows="3" maxlength="240" placeholder="Deskripsi singkat produk..." required></textarea>
+          </label>
+          <label class="field full">
+            <span>URL gambar</span>
+            <input id="pfImage" type="text" placeholder="assets/img/mango-cream.jpg">
+            <small>Bisa pakai path lokal, URL https, atau upload foto di bawah.</small>
+          </label>
+          <label class="field full">
+            <span>Upload gambar</span>
+            <input id="pfUpload" type="file" accept="image/png,image/jpeg,image/webp">
+            <small>Foto otomatis diperkecil agar penyimpanan prototype tetap ringan.</small>
+          </label>
+          <label class="field">
+            <span>Label produk</span>
+            <input id="pfTag" maxlength="20" placeholder="Best Seller">
+          </label>
+          <div class="field">
+            <span>Status</span>
+            <div class="check-row" style="margin-top:6px">
+              <label class="check"><input type="checkbox" id="pfAvailable" checked> Tersedia</label>
+              <label class="check"><input type="checkbox" id="pfFeatured"> Unggulan</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="image-preview" id="pfPreviewWrap">
+          <img id="pfPreview" alt="Pratinjau gambar produk">
+          <span>Pratinjau gambar</span>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn btn-ghost" type="button" data-close-product>Batal</button>
+          <button class="btn btn-primary" type="submit">Simpan Produk</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= CONFIRM MODAL ================= -->
+  <div class="admin-modal" id="confirmModal" aria-hidden="true">
+    <div class="modal-card" style="max-width:400px" role="alertdialog" aria-modal="true" aria-labelledby="confirmTitle">
+      <div class="confirm-body">
+        <h2 id="confirmTitle" style="margin:0 0 8px;font-family:var(--serif);font-size:20px">Hapus produk?</h2>
+        <p id="confirmText">Data yang dihapus tidak bisa dikembalikan.</p>
+        <p class="muted">Tindakan ini hanya mengubah data prototype di browser ini.</p>
+        <div class="confirm-actions">
+          <button class="btn btn-ghost" type="button" id="confirmCancel">Batal</button>
+          <button class="btn btn-danger" type="button" id="confirmOk">Hapus</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="assets/js/security.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/admin.js"></script>
+</body>
+</html>

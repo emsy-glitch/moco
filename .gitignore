@@ -1,0 +1,25 @@
+# Secrets & environment
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+.secrets/
+
+# Logs & backups
+*.log
+logs/
+backups/
+backup-*.json
+
+# Local tooling
+screenshots/
+node_modules/
+.tmp/
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

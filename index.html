@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fff9ed">
+  <title>Moco — Mochi Dessert Store | Mochi for Your Happy Day</title>
+  <meta name="description" content="Moco menjual mochi lembut dengan lima pilihan rasa: Mango Cream, Strawberry Cream, Matcha, Vanilla, dan Red Bean. Pesan mudah lewat WhatsApp.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://wa.me">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23fff9ed'/%3E%3Ccircle cx='32' cy='34' r='17' fill='%23e9c66d'/%3E%3Ccircle cx='32' cy='28' r='10' fill='%23fffdf8' opacity='.65'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#home">Lewati ke konten utama</a>
+
+  <header class="site-header">
+    <div class="wrap nav">
+      <a class="brand" href="#home" aria-label="Moco, kembali ke beranda">
+        <span class="logo">mo<span>co</span>.</span>
+        <small>Mochi Dessert Store</small>
+      </a>
+
+      <nav class="nav-links" id="navLinks" aria-label="Navigasi pelanggan">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#menu">Menu</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="menu-toggle" id="menuToggle" type="button" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="navLinks">
+          <span></span><span></span>
+        </button>
+        <button class="cart-btn" type="button" data-open-cart aria-label="Buka keranjang belanja">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+          <span class="cart-label">My Cart</span>
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============ HOME ============ -->
+    <section class="hero" id="home">
+      <div class="wrap hero-grid">
+        <div>
+          <span class="eyebrow">Little bites, big happiness</span>
+          <h1>A little piece<br>of <em>happiness.</em></h1>
+          <p class="hero-copy">
+            Mochi lembut yang dibuat segar setiap hari, dengan lima pilihan rasa
+            yang bikin harimu terasa lebih manis. Temukan favoritmu di Moco.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#menu">Explore Menu
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+            </a>
+            <a class="btn btn-ghost" href="#about">Tentang Moco</a>
+          </div>
+          <div class="hero-meta">
+            <div><strong>5</strong><span>Pilihan rasa</span></div>
+            <div><strong>Rp10.000</strong><span>Per pcs</span></div>
+            <div><strong>Fresh</strong><span>Dibuat harian</span></div>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="hero-photo">
+            <img src="assets/img/hero.jpg" alt="Aneka mochi Moco di atas piring keramik" width="1000" height="900" fetchpriority="high">
+          </div>
+          <div class="hero-badge"><span>🌸</span> Dibuat fresh setiap hari</div>
+          <div class="featured-float" aria-label="Produk unggulan">
+            <button class="featured-chip" type="button" data-product="mango-cream">
+              <img src="assets/img/mango-cream.jpg" alt="" width="44" height="44" loading="lazy">
+              <span><b>Mango Cream</b><small>Rp10.000</small></span>
+            </button>
+            <button class="featured-chip" type="button" data-product="strawberry-cream">
+              <img src="assets/img/strawberry-cream.jpg" alt="" width="44" height="44" loading="lazy">
+              <span><b>Strawberry Cream</b><small>Rp10.000</small></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="strip" aria-hidden="true">
+      <div class="strip-track">
+        <span>Mochi segar setiap hari</span><span>Lima pilihan rasa</span><span>Homemade dengan cinta</span><span>Pesan lewat WhatsApp</span><span>Mochi segar setiap hari</span><span>Lima pilihan rasa</span><span>Homemade dengan cinta</span><span>Pesan lewat WhatsApp</span>
+      </div>
+    </div>
+
+    <!-- ============ ABOUT ============ -->
+    <section class="section about" id="about">
+      <div class="wrap about-grid">
+        <div class="about-visual">
+          <img src="assets/img/about.jpg" alt="Mochi Moco yang lembut dengan isian krim" width="900" height="700" loading="lazy">
+          <div class="about-note">“Lembut di luar, manis di dalam.”</div>
+        </div>
+        <div class="about-copy">
+          <span class="kicker">About Moco</span>
+          <h2>Dessert kecil, kebahagiaan yang tinggal.</h2>
+          <p>
+            Moco adalah toko dessert rumahan yang fokus pada mochi. Kami membuat mochi
+            dengan tekstur kenyal yang lembut dan isian krim yang tidak berlebihan manis,
+            supaya nyaman dinikmati kapan saja.
+          </p>
+          <p>
+            Tersedia lima pilihan rasa — Mango Cream, Strawberry Cream, Matcha, Vanilla,
+            dan Red Bean. Semuanya dibuat dalam batch kecil agar tetap segar saat sampai
+            di tanganmu.
+          </p>
+          <div class="perks">
+            <div class="perk"><strong>Fresh daily</strong><span>Dibuat per batch</span></div>
+            <div class="perk"><strong>5 rasa</strong><span>Klasik & signature</span></div>
+            <div class="perk"><strong>Rp10.000</strong><span>Harga per pcs</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MENU ============ -->
+    <section class="section menu-section" id="menu">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <span class="kicker">Our Menu</span>
+            <h2>Pilih mochi favoritmu.</h2>
+          </div>
+          <p class="section-desc">Klik produk untuk melihat detail, atur jumlah, lalu masukkan ke keranjang. Semua rasa Rp10.000 per pcs.</p>
+        </div>
+        <div class="products" id="productGrid" aria-live="polite"></div>
+        <p class="menu-footnote" id="menuFootnote">Harga sudah termasuk kemasan. Pesanan dikonfirmasi melalui WhatsApp.</p>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="contact" id="contact">
+      <div class="wrap contact-grid">
+        <div>
+          <span class="kicker">Contact</span>
+          <h2>Mampir &amp; say hello.</h2>
+          <p>Ada pertanyaan soal rasa, pesanan, atau pengiriman? Hubungi kami lewat WhatsApp atau Instagram — kami senang mendengar dari kamu.</p>
+        </div>
+        <div class="contact-cards">
+          <a class="contact-card" id="contactWa" href="https://wa.me/6281283115852" target="_blank" rel="noopener">
+            <span class="contact-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2Zm5.8 14.06c-.25.7-1.47 1.36-2.02 1.4-.54.05-1.05.24-3.55-.74-3.02-1.19-4.92-4.28-5.07-4.48-.15-.2-1.2-1.6-1.2-3.05 0-1.45.76-2.16 1.03-2.46.27-.3.59-.37.79-.37.2 0 .39 0 .56.01.18.01.42-.07.66.5.25.6.84 2.05.91 2.2.07.15.12.32.02.52-.1.2-.15.32-.3.5-.15.17-.31.39-.45.52-.15.15-.3.31-.13.61.17.3.76 1.25 1.63 2.03 1.12 1 2.06 1.31 2.36 1.46.3.15.47.12.65-.07.17-.2.74-.86.94-1.16.2-.3.4-.25.66-.15.27.1 1.72.81 2.01.96.3.15.5.22.57.35.07.12.07.72-.18 1.42Z"/></svg>
+            </span>
+            <small>WhatsApp</small>
+            <strong id="contactWaText">0812 8311 5852</strong>
+            <em>Chat sekarang <span aria-hidden="true">↗</span></em>
+          </a>
+          <a class="contact-card" id="contactIg" href="https://www.instagram.com/muhammad.syauqal/" target="_blank" rel="noopener">
+            <span class="contact-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg>
+            </span>
+            <small>Instagram</small>
+            <strong id="contactIgText">@muhammad.syauqal</strong>
+            <em>Lihat profil <span aria-hidden="true">↗</span></em>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="logo" href="#home">mo<span>co</span>.</a>
+          <p>Mochi dessert store rumahan dengan lima pilihan rasa. Dibuat lembut, manisnya pas, dan siap bikin harimu lebih ringan.</p>
+          <div class="footer-socials">
+            <a id="footerWa" href="https://wa.me/6281283115852" target="_blank" rel="noopener" aria-label="WhatsApp Moco">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2Zm5.8 14.06c-.25.7-1.47 1.36-2.02 1.4-.54.05-1.05.24-3.55-.74-3.02-1.19-4.92-4.28-5.07-4.48-.15-.2-1.2-1.6-1.2-3.05 0-1.45.76-2.16 1.03-2.46.27-.3.59-.37.79-.37.2 0 .39 0 .56.01.18.01.42-.07.66.5.25.6.84 2.05.91 2.2.07.15.12.32.02.52-.1.2-.15.32-.3.5-.15.17-.31.39-.45.52-.15.15-.3.31-.13.61.17.3.76 1.25 1.63 2.03 1.12 1 2.06 1.31 2.36 1.46.3.15.47.12.65-.07.17-.2.74-.86.94-1.16.2-.3.4-.25.66-.15.27.1 1.72.81 2.01.96.3.15.5.22.57.35.07.12.07.72-.18 1.42Z"/></svg>
+            </a>
+            <a id="footerIg" href="https://www.instagram.com/muhammad.syauqal/" target="_blank" rel="noopener" aria-label="Instagram Moco">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navigasi</h4>
+          <a href="#home">Home</a>
+          <a href="#about">About</a>
+          <a href="#menu">Menu</a>
+          <a href="#contact">Contact</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Hubungi Kami</h4>
+          <a id="footerWaText" href="https://wa.me/6281283115852" target="_blank" rel="noopener">0812 8311 5852</a>
+          <a id="footerIgText" href="https://www.instagram.com/muhammad.syauqal/" target="_blank" rel="noopener">@muhammad.syauqal</a>
+          <span>Pesan online via WhatsApp</span>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; <span id="year">2026</span> Moco — Mochi Dessert Store. All rights reserved.</span>
+        <span>Made with care in Indonesia · <a href="privacy.html" style="text-decoration:underline;text-underline-offset:2px">Kebijakan Privasi</a> · <a href="credits.html" style="text-decoration:underline;text-underline-offset:2px">Kredit foto</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ CART DRAWER ============ -->
+  <div class="overlay" id="overlay" data-close-cart></div>
+  <aside class="drawer" id="cartDrawer" aria-label="Keranjang belanja" aria-hidden="true">
+    <div class="drawer-head">
+      <div>
+        <h3>Your Cart</h3>
+        <p id="cartSummary">0 item dipilih</p>
+      </div>
+      <button class="icon-btn" type="button" data-close-cart aria-label="Tutup keranjang">&times;</button>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-foot" id="cartFoot">
+      <div class="cart-row"><span>Subtotal</span><span id="cartSubtotal">Rp0</span></div>
+      <div class="cart-row"><span>Jumlah item</span><span id="cartQty">0 pcs</span></div>
+      <div class="cart-row total"><span>Total</span><span id="cartTotal">Rp0</span></div>
+      <p class="cart-note">Checkout akan mencatat pesanan dengan status <strong>Menunggu Konfirmasi</strong>, lalu membuka WhatsApp untuk menyelesaikan pembayaran dan pengiriman. Data yang diproses dijelaskan di <a href="privacy.html" style="text-decoration:underline">Kebijakan Privasi</a>.</p>
+      <button class="btn btn-dark btn-block" id="checkoutBtn" type="button">Checkout via WhatsApp</button>
+    </div>
+  </aside>
+
+  <!-- ============ PRODUCT DETAIL ============ -->
+  <div class="modal" id="productModal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="detailName">
+      <button class="icon-btn modal-close" type="button" data-close-detail aria-label="Tutup detail produk">&times;</button>
+      <div class="product-detail">
+        <div class="detail-media"><img id="detailImage" src="assets/img/vanilla.jpg" alt=""></div>
+        <div class="detail-body">
+          <span class="product-tag" id="detailTag">Signature</span>
+          <h3 id="detailName">—</h3>
+          <div class="detail-price"><span id="detailPrice">Rp10.000</span> <small>/ pcs</small></div>
+          <p class="detail-desc" id="detailDesc">—</p>
+          <div class="detail-meta">
+            <span>Isian cream</span><span>Tekstur lembut</span><span>Fresh daily</span>
+          </div>
+          <div class="detail-buy">
+            <div class="stepper" aria-label="Jumlah pembelian">
+              <button type="button" id="detailMinus" aria-label="Kurangi jumlah">&minus;</button>
+              <input id="detailQty" type="number" min="1" max="99" value="1" inputmode="numeric" aria-label="Jumlah">
+              <button type="button" id="detailPlus" aria-label="Tambah jumlah">+</button>
+            </div>
+            <button class="btn btn-primary" id="detailAdd" type="button">Add to Cart</button>
+          </div>
+          <p class="detail-stock" id="detailStock"><span class="dot"></span> Tersedia</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="assets/js/security.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
